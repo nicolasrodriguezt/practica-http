@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servidor HTTP - Grupo</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* HERO IMAGE */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px auto;
+    }
+
+    .hero-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .hero img {
+      width: 600px;
+      max-width: 90%;
+      transition: transform 0.5s ease;
+      border-radius: 15px;
+    }
+
+    .hero-container::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(45deg, #00f, #0ff, #00f);
+      opacity: 0;
+      transition: opacity 0.5s;
+      border-radius: 20px;
+      z-index: 1;
+      animation: borderGlow 3s linear infinite;
+    }
+
+    @keyframes borderGlow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .hero-container:hover::before {
+      opacity: 1;
+    }
+
+    .hero-container:hover img {
+      transform: scale(1.1);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 2;
+      border-radius: 15px;
+    }
+
+    .hero-container:hover .overlay {
+      opacity: 1;
+    }
+
+    .overlay h2 {
+      font-size: 2rem;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card:nth-child(1) { border: 2px solid #ff4d4d; }
+    .card:nth-child(2) { border: 2px solid #4dff88; }
+    .card:nth-child(3) { border: 2px solid #4da6ff; }
+    .card:nth-child(4) { border: 2px solid #ffd24d; }
+
+    /* INFO */
+    .info {
+      padding: 40px;
+      text-align: center;
+    }
+
+    /* BUTTON */
+    .btn-section {
+      text-align: center;
+      margin: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      display: none;
+    }
+
+    /* CONFETTI */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: 0;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* CLOCK */
+    .clock {
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 20px;
+    }
+
+    footer {
+      background: #020617;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Proyecto Servidor HTTP</h1>
+  <div class="clock" id="clock"></div>
+</header>
+
+<section class="hero">
+  <div class="hero-container">
+    <img src="grupo.jpg" alt="Grupo">
+    <div class="overlay">
+      <h2>Nuestro Grupo</h2>
+    </div>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="card">
+    <h3>Integrante 1</h3>
+    <p>Líder</p>
+  </div>
+  <div class="card">
+    <h3>Integrante 2</h3>
+    <p>Desarrollador</p>
+  </div>
+  <div class="card">
+    <h3>Integrante 3</h3>
+    <p>Diseñador</p>
+  </div>
+  <div class="card">
+    <h3>Integrante 4</h3>
+    <p>QA</p>
+  </div>
+</section>
+
+<section class="info">
+  <h2>Nuestro Servidor HTTP</h2>
+  <p>
+    HTTP (HyperText Transfer Protocol) es el protocolo que permite la comunicación entre navegadores y servidores web.
+    Esta página está siendo servida mediante Apache2 en un sistema Linux, demostrando el correcto funcionamiento del servidor.
+  </p>
+</section>
+
+<section class="btn-section">
+  <button onclick="celebrate()">Probar Servidor</button>
+  <div id="message">¡Servidor HTTP funcionando correctamente!</div>
+</section>
+
+<footer>
+  <p>Universidad XYZ - Sistemas Operativos - 2026</p>
+</footer>
+
+<script>
+  // CLOCK
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').innerText = now.toLocaleString();
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // CONFETTI
+  function celebrate() {
+    const message = document.getElementById('message');
+    message.style.display = 'block';
+
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 5000);
+    }
+  }
+</script>
+
+</body>
+</html>
+
